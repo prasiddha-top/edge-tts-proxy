@@ -72,6 +72,14 @@ on any non-200 / empty audio — never publish a silent reel.
 - Unofficial Microsoft endpoint — it can break without warning. If it
   does, the fallback order is: Google Cloud TTS (blocked on billing
   OR-BACR2_59) or Google Translate TTS (test-only, flat voice).
+  **2026-11-20: the plain edge-tts library (aiohttp) got HTTP 403 from
+  Microsoft on the Coolify VPS** even though /health and /voices worked.
+  Fix applied in app.py v1.1: edge-tts 7.3.1 (Sec-MS-GEC-Version
+  2-143.0.3650.75) + the protocol spoken over websocket-client instead
+  of aiohttp (ported from the proven local `ws_tts_local.py`), with a
+  60s timeout so a hung synthesis fails loudly as 502. If it 403s
+  again, check for a newer edge-tts release first — its constants carry
+  the current token/version.
 - The `mojo-music` track is Content ID registered — never reuse on
   YouTube; the Leonida Shorts are voice-only, no music.
 - Local dev VM caveat: this VM's egress proxy mangles WebSocket
