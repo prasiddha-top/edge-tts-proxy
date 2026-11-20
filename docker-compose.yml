@@ -1,0 +1,19 @@
+# Edge TTS proxy — docker compose (for Coolify "Docker Compose" deploys
+# or local testing). Coolify normally builds from the Dockerfile; this
+# file is the fallback if the dashboard asks for compose instead.
+# Set EDGE_TTS_API_KEY to a random string and send it as X-Api-Key from n8n.
+services:
+  edge-tts:
+    build: .
+    container_name: edge-tts
+    restart: unless-stopped
+    environment:
+      - PORT=8000
+      # - EDGE_TTS_API_KEY=change-me-to-a-random-string
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
