@@ -24,7 +24,7 @@ changes the handshake again, the first thing to check is a newer
 edge-tts release — its constants carry the current token/version.
 
 Notes:
-- Text is capped at 500 chars per request (our voiceovers are ~150).
+- Text is capped at 1500 chars per request (Facebook voiceovers are ~150; Leonida YouTube scripts run ~890).
 - Edge TTS is an unofficial, undocumented Microsoft endpoint — it can
   break without warning. The caller (n8n) must fail loudly, never
   silently publish a silent reel. This service does the same: every
@@ -53,7 +53,7 @@ from edge_tts.drm import DRM
 app = FastAPI(title="Edge TTS proxy", version="1.1.0")
 
 API_KEY = os.environ.get("EDGE_TTS_API_KEY", "")
-MAX_CHARS = 500
+MAX_CHARS = 1500
 SYNTH_TIMEOUT = 60  # seconds; a hung WebSocket fails loudly, never hangs
 
 # Default voices per page (user can override per request).
